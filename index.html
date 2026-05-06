@@ -1,15 +1,1037 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>I.S.A — Admin</title>
-  <style>
-    body { margin:0; font-family: sans-serif; background: #0f1d3a; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I.S.A — Intuitive Security Applications</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────
+   TOKENS
+───────────────────────────────────── */
+:root{
+  --red:#fe0909;
+  --navy:#273863;
+  --navy-deep:#0f1d3a;
+  --white:#ffffff;
+  --light:#edeef0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Open Sans',sans-serif;background:var(--white);color:var(--navy-deep);overflow-x:hidden;}
+
+/* ─────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────── */
+@keyframes fuBlur{
+  from{opacity:0;transform:translateY(30px);filter:blur(8px);}
+  to  {opacity:1;transform:none;filter:blur(0);}
+}
+.ha{opacity:0;animation:fuBlur 1.15s cubic-bezier(.22,1,.36,1) forwards;}
+.ha.d1{animation-delay:.10s;} .ha.d2{animation-delay:.26s;}
+.ha.d3{animation-delay:.42s;} .ha.d4{animation-delay:.58s;}
+.ha.d5{animation-delay:.74s;}
+
+.rv{
+  opacity:0;transform:translateY(26px);filter:blur(6px);
+  transition:opacity .95s cubic-bezier(.22,1,.36,1),
+             transform .95s cubic-bezier(.22,1,.36,1),
+             filter .95s cubic-bezier(.22,1,.36,1);
+}
+.rv.in{opacity:1;transform:none;filter:none;}
+.rv.d1{transition-delay:.07s;} .rv.d2{transition-delay:.16s;}
+.rv.d3{transition-delay:.25s;} .rv.d4{transition-delay:.34s;}
+.rv.d5{transition-delay:.43s;} .rv.d6{transition-delay:.52s;}
+
+/* ─────────────────────────────────────
+   BUTTONS  (all share same blur-lift anim)
+───────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-size:.74rem;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  cursor:pointer;border-radius:50px;padding:.9rem 2.4rem;
+  border:2.5px solid transparent;position:relative;overflow:hidden;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),
+             box-shadow .5s cubic-bezier(.22,1,.36,1),
+             background .3s,color .3s,filter .3s;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;border-radius:50px;
+  background:rgba(255,255,255,.14);opacity:0;
+  transition:opacity .4s;backdrop-filter:blur(3px);
+}
+.btn:hover{transform:translateY(-4px) scale(1.025);filter:brightness(1.06);
+           box-shadow:0 14px 36px rgba(0,0,0,.28);}
+.btn:hover::after{opacity:1;}
+.btn:active{transform:scale(.97);}
+
+.btn-wol {background:transparent;color:var(--white);border-color:var(--white);}
+.btn-rol {background:transparent;color:var(--red);  border-color:var(--red);}
+.btn-nol {background:transparent;color:var(--navy); border-color:var(--navy);}
+.btn-nfill{background:var(--navy);color:var(--white);border-color:var(--navy);}
+.btn-rfill{background:var(--red); color:var(--white);border-color:var(--red);}
+.btn-wol:hover  {background:rgba(255,255,255,.12);}
+.btn-rol:hover  {background:rgba(254,9,9,.07);}
+.btn-nol:hover  {background:rgba(39,56,99,.07);}
+.btn-nfill:hover{background:var(--navy-deep);}
+.btn-rfill:hover{background:#c80000;}
+
+/* ─────────────────────────────────────
+   PREMIUM SECTION HEADING
+   Bold type + 4 px red left bar
+───────────────────────────────────── */
+.sh-wrap{
+  display:inline-block;
+  position:relative;
+  padding-left:1.5rem;
+}
+.sh-wrap::before{
+  content:'';
+  position:absolute;left:0;top:6%;bottom:6%;
+  width:5px;background:var(--red);border-radius:3px;
+}
+.sh-title{
+  font-family:'Montserrat',sans-serif;
+  font-weight:900;line-height:.98;
+  text-transform:uppercase;letter-spacing:-.01em;
+  font-size:clamp(2.2rem,7vw,3.8rem);
+  color:var(--navy-deep);
+}
+.sh-title .hl{color:var(--red);}
+/* dark-bg variant */
+.sh-dark .sh-title{color:var(--white);}
+.sh-dark .sh-title .hl{color:var(--red);}
+
+.sh-sub{
+  font-family:'Open Sans',sans-serif;
+  font-size:1rem;font-style:italic;font-weight:600;
+  color:var(--navy);margin-top:.9rem;
+}
+.sh-dark .sh-sub{color:rgba(255,255,255,.65);}
+
+/* ─────────────────────────────────────
+   NAV
+───────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  background:rgba(8,15,30,.97);backdrop-filter:blur(14px);
+  border-bottom:2.5px solid var(--red);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 2rem;
+}
+.nav-brand{display:flex;align-items:center;gap:.75rem;}
+.nav-globe{
+  width:34px;height:34px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.5);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.nav-name{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:.82rem;letter-spacing:.1em;color:var(--white);line-height:1.3;
+}
+.nav-name small{
+  display:block;font-weight:500;font-size:.52rem;
+  letter-spacing:.18em;opacity:.6;margin-top:1px;
+}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+.nav-links a{
+  font-family:'Montserrat',sans-serif;font-size:.63rem;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);text-decoration:none;transition:color .3s;
+}
+.nav-links a:hover{color:var(--white);}
+.hbg{
+  display:none;flex-direction:column;gap:5px;
+  cursor:pointer;background:none;border:none;padding:4px;
+}
+.hbg span{display:block;width:22px;height:2px;background:var(--white);transition:.3s;}
+.mob{
+  display:none;position:fixed;top:57px;left:0;right:0;
+  background:var(--navy-deep);z-index:490;
+  padding:1.6rem 2rem;flex-direction:column;gap:1.2rem;
+  border-bottom:2px solid var(--red);
+}
+.mob.open{display:flex;}
+.mob a{
+  font-family:'Montserrat',sans-serif;font-size:.85rem;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--white);text-decoration:none;
+  padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.mob a:last-child{border:none;}
+
+/* ─────────────────────────────────────
+   HERO
+───────────────────────────────────── */
+.hero{
+  min-height:100svh;
+  background:linear-gradient(155deg,#090f1e 0%,#162248 55%,#09111f 100%);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:8rem 2rem 5rem;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=70&auto=format&fit=crop') center/cover no-repeat;
+  opacity:.18;mix-blend-mode:luminosity;
+}
+.hero-glow{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 75% 45%,rgba(254,9,9,.08) 0%,transparent 70%);
+}
+.hero-inner{position:relative;z-index:2;max-width:780px;}
+.hero-brand{display:flex;align-items:center;gap:.9rem;margin-bottom:2.2rem;}
+.hero-globe{
+  width:56px;height:56px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.5);
+  display:flex;align-items:center;justify-content:center;font-size:1.75rem;
+}
+.hero-brand-text{
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:.72rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.8);line-height:1.6;
+}
+.hero-title{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:clamp(3rem,10.5vw,6.5rem);
+  text-transform:uppercase;line-height:.92;
+  color:var(--white);margin-bottom:1.4rem;
+}
+.hero-title .red{color:var(--red);}
+.hero-rule{width:88px;height:3.5px;background:var(--white);border-radius:2px;margin-bottom:1.6rem;}
+.hero-sub{
+  font-family:'Open Sans',sans-serif;font-size:1.05rem;
+  font-weight:700;line-height:1.65;color:var(--red);
+  margin-bottom:2.8rem;max-width:520px;
+}
+.hero-cta{display:flex;flex-wrap:wrap;gap:1rem;}
+
+/* ─────────────────────────────────────
+   SHARED LAYOUT
+───────────────────────────────────── */
+.sec{padding:6rem 2rem;}
+.inner{max-width:1100px;margin:0 auto;}
+.sec-head{margin-bottom:3.5rem;}
+.cta-row{text-align:center;margin-top:3rem;}
+
+/* ─────────────────────────────────────
+   WHY ISA EXISTS
+───────────────────────────────────── */
+.why-bg{background:var(--light);}
+.why-leads{
+  text-align:center;margin-bottom:3rem;
+}
+.why-leads p{
+  font-family:'Open Sans',sans-serif;font-size:1.15rem;
+  font-style:italic;font-weight:700;color:var(--navy);
+  line-height:1.7;
+}
+/* uniform card grid */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.6rem;
+}
+.scard{
+  background:var(--white);
+  padding:2.6rem 2rem;min-height:240px;
+  box-shadow:4px 6px 22px rgba(0,0,0,.11);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s;
+}
+.scard:hover{transform:translateY(-8px);box-shadow:6px 14px 36px rgba(0,0,0,.18);}
+.scard-icon{font-size:3rem;margin-bottom:1.1rem;line-height:1;}
+.scard-title{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:.97rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--navy);line-height:1.4;
+}
+.before-late{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:clamp(1.3rem,4vw,1.9rem);font-style:italic;
+  color:var(--red);margin-bottom:1.6rem;
+}
+
+/* ─────────────────────────────────────
+   HOW ISA WORKS  (photo step cards)
+───────────────────────────────────── */
+.how-bg{background:var(--light);}
+.step-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.8rem;
+}
+.step-card{
+  position:relative;border-radius:16px;overflow:hidden;
+  min-height:380px;
+  box-shadow:4px 8px 28px rgba(0,0,0,.22);
+  transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s;
+}
+.step-card:hover{transform:translateY(-8px);box-shadow:6px 16px 44px rgba(0,0,0,.3);}
+.step-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+  /* fallback colour while image loads */
+  background:var(--navy);
+}
+.step-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.10) 0%,rgba(0,0,0,.75) 100%);
+}
+.step-badge{
+  position:absolute;top:1.1rem;left:1.1rem;
+  display:flex;align-items:flex-start;gap:.55rem;z-index:3;
+}
+.step-num{
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  border:3px solid var(--red);background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:1.2rem;color:var(--red);
+}
+.step-tag{
+  background:var(--white);
+  padding:.28rem .8rem;border-radius:4px;
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--navy);transform:rotate(-5deg);margin-top:9px;
+  box-shadow:2px 3px 8px rgba(0,0,0,.18);
+}
+.step-foot{
+  position:absolute;bottom:1.4rem;left:1.4rem;right:1.4rem;z-index:3;
+}
+.step-desc{
+  font-family:'Open Sans',sans-serif;font-size:.95rem;
+  font-style:italic;font-weight:700;color:var(--white);
+}
+
+/* ─────────────────────────────────────
+   WHO IS ISA FOR
+───────────────────────────────────── */
+.who-bg{
+  background:linear-gradient(158deg,var(--navy) 0%,#1b2d5e 45%,var(--navy-deep) 100%);
+}
+.who-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:0;
+  max-width:700px;margin:0 auto 3rem;
+  border:1.5px solid var(--red);
+}
+.who-card{
+  min-height:150px;padding:1.6rem 1rem;
+  background:rgba(255,255,255,.05);
+  border-right:1.5px solid var(--red);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  transition:background .35s;
+}
+.who-card:last-child{border-right:none;}
+.who-card:hover{background:rgba(255,255,255,.12);}
+.who-icon{font-size:2.4rem;margin-bottom:.7rem;line-height:1;}
+.who-label{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:.82rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--white);line-height:1.35;
+}
+
+/* ─────────────────────────────────────
+   FOUNDER / 15 YEARS
+───────────────────────────────────── */
+.founder-bg{
+  background:linear-gradient(180deg,rgba(254,9,9,.03) 0%,rgba(237,238,240,.55) 100%);
+}
+.founder-big{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:clamp(2rem,6.5vw,3rem);
+  color:var(--navy-deep);line-height:1.15;margin-bottom:2.2rem;
+}
+.founder-big .red{color:var(--red);}
+
+/* premium inline heading: teal bar + bold type */
+.inline-sh{
+  display:inline-block;position:relative;
+  padding-left:1.4rem;margin:2rem 0 1.6rem;
+}
+.inline-sh::before{
+  content:'';position:absolute;left:0;top:8%;bottom:8%;
+  width:4px;background:#4a7a8e;border-radius:2px;
+}
+.inline-sh-text{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:clamp(1.3rem,4.5vw,1.9rem);line-height:1.1;
+  text-transform:uppercase;color:var(--navy-deep);
+}
+.inline-sh-text .hl{color:var(--red);}
+
+.bullet-list{list-style:none;margin:0 0 2rem;}
+.bullet-list li{
+  display:flex;align-items:flex-start;gap:.8rem;
+  padding:.6rem 0;border-bottom:1px solid rgba(39,56,99,.1);
+  font-family:'Open Sans',sans-serif;font-size:.98rem;
+  font-weight:600;color:var(--navy-deep);
+}
+.bullet-list li:last-child{border:none;}
+.bdot{
+  width:9px;height:9px;border-radius:50%;
+  background:var(--navy);flex-shrink:0;margin-top:6px;
+}
+.bdot-red{background:var(--red);}
+.red-text{color:var(--red);}
+.insight-quote{
+  font-family:'Montserrat',sans-serif;font-weight:700;
+  font-size:clamp(1.05rem,3.5vw,1.4rem);
+  color:var(--navy-deep);line-height:1.5;
+  text-align:center;margin:2rem 0;
+}
+
+/* ─────────────────────────────────────
+   TOOLKIT
+───────────────────────────────────── */
+.toolkit-wrap{
+  position:relative;overflow:hidden;
+  background:#0d1520;
+}
+.toolkit-photo{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=70&auto=format&fit=crop') center/cover no-repeat;
+  opacity:.22;
+}
+.toolkit-inner{position:relative;z-index:2;}
+.toolkit-h{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:clamp(2.2rem,8vw,4rem);text-transform:uppercase;
+  line-height:.98;color:var(--white);margin-bottom:.9rem;
+}
+.toolkit-h .red{color:var(--red);}
+.toolkit-sub{
+  font-family:'Montserrat',sans-serif;font-weight:700;
+  font-size:.95rem;letter-spacing:.05em;
+  color:rgba(255,255,255,.75);margin-bottom:2.2rem;
+}
+.check-list{list-style:none;margin-bottom:2.8rem;}
+.check-list li{
+  display:flex;align-items:center;gap:.9rem;
+  padding:.65rem 0;border-bottom:1px solid rgba(255,255,255,.1);
+  font-family:'Open Sans',sans-serif;font-size:.97rem;
+  font-weight:600;color:var(--white);
+}
+.check-list li:last-child{border:none;}
+.cdot{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--red);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;color:var(--white);font-weight:900;
+}
+
+/* ─────────────────────────────────────
+   WHAT ISA DOES
+───────────────────────────────────── */
+.what-bg{
+  background:linear-gradient(180deg,var(--light) 0%,rgba(237,238,240,.2) 100%);
+}
+.what-italic{
+  font-family:'Open Sans',sans-serif;font-size:1rem;
+  font-style:italic;font-weight:700;color:var(--red);
+  text-align:center;margin-bottom:2.8rem;
+}
+
+/* ─────────────────────────────────────
+   BLOG SECTION
+───────────────────────────────────── */
+.blog-bg{
+  background:var(--white);
+  border-top:3px solid var(--light);
+}
+.blog-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.8rem;
+  margin-bottom:1rem;
+}
+.blog-card{
+  background:var(--white);
+  border:1.5px solid var(--light);
+  padding:2rem;
+  position:relative;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),
+             box-shadow .5s, border-color .3s;
+}
+.blog-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(39,56,99,.1);
+  border-color:var(--navy);
+}
+.blog-card-top{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  margin-bottom:1rem;
+}
+.blog-tag{
+  font-family:'Montserrat',sans-serif;
+  font-size:.62rem;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--white);background:var(--red);
+  padding:.25rem .7rem;border-radius:2px;
+}
+.blog-date{
+  font-family:'Open Sans',sans-serif;
+  font-size:.72rem;color:#999;font-weight:400;
+}
+.blog-title{
+  font-family:'Montserrat',sans-serif;
+  font-weight:800;font-size:1rem;
+  color:var(--navy-deep);line-height:1.4;
+  margin-bottom:.85rem;
+}
+.blog-excerpt{
+  font-family:'Open Sans',sans-serif;
+  font-size:.88rem;font-weight:400;
+  color:#666;line-height:1.75;
+  margin-bottom:1.2rem;
+}
+.blog-read-more{
+  font-family:'Montserrat',sans-serif;
+  font-size:.72rem;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);text-decoration:none;
+  transition:letter-spacing .3s;
+}
+.blog-read-more:hover{letter-spacing:.18em;}
+
+/* ─────────────────────────────────────
+   JOIN OUR BRIEF
+───────────────────────────────────── */
+.brief-wrap{
+  position:relative;overflow:hidden;
+  background:linear-gradient(155deg,var(--navy-deep) 0%,#3d0707 55%,#720c0c 100%);
+}
+.brief-noise{
+  position:absolute;inset:0;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.brief-inner{position:relative;z-index:2;max-width:680px;margin:0 auto;text-align:center;}
+.brief-brand{
+  display:flex;align-items:center;justify-content:center;
+  gap:.8rem;margin-bottom:2rem;
+}
+.brief-globe{
+  width:42px;height:42px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.5);
+  display:flex;align-items:center;justify-content:center;font-size:1.35rem;
+}
+.brief-brand-text{
+  font-family:'Open Sans',sans-serif;font-size:.82rem;font-weight:600;
+  color:rgba(255,255,255,.8);text-align:left;line-height:1.55;
+}
+.brief-body{
+  font-family:'Open Sans',sans-serif;font-size:.93rem;
+  color:rgba(255,255,255,.68);line-height:1.8;margin-bottom:2.5rem;
+}
+
+/* ─────────────────────────────────────
+   CONNECT
+───────────────────────────────────── */
+.connect-wrap{
+  position:relative;overflow:hidden;min-height:500px;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:6rem 2rem;
+}
+.connect-photo{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&q=70&auto=format&fit=crop') center/cover no-repeat;
+  opacity:.35;
+}
+.connect-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(8,15,30,.72) 0%,rgba(8,15,30,.88) 100%);
+}
+.connect-inner{position:relative;z-index:2;max-width:780px;margin:0 auto;width:100%;}
+.connect-contact{
+  font-family:'Open Sans',sans-serif;font-size:1.05rem;
+  font-weight:600;color:var(--white);line-height:2.5;margin-bottom:2.2rem;
+}
+.connect-contact span{color:var(--red);font-weight:800;}
+
+/* ─────────────────────────────────────
+   FOOTER
+───────────────────────────────────── */
+footer{
+  background:#070c18;border-top:2.5px solid var(--red);padding:1.8rem 2rem;
+}
+.foot-row{
+  max-width:1100px;margin:0 auto;
+  display:flex;flex-wrap:wrap;align-items:center;
+  justify-content:space-between;gap:1rem;
+}
+.foot-brand{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:.8rem;letter-spacing:.1em;color:var(--white);
+}
+.foot-brand span{color:var(--red);}
+.foot-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.foot-links a{
+  font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);text-decoration:none;transition:color .3s;
+}
+.foot-links a:hover{color:var(--white);}
+.foot-copy{
+  font-family:'Montserrat',sans-serif;font-size:.56rem;
+  letter-spacing:.08em;color:rgba(255,255,255,.22);
+}
+
+/* ─────────────────────────────────────
+   DESKTOP ENHANCEMENTS (>900px)
+───────────────────────────────────── */
+@media(min-width:900px){
+  nav{padding:.85rem 3rem;}
+  .sec{padding:7rem 3rem;}
+  .hero{padding:8rem 4rem 6rem;}
+  .hero-inner{max-width:860px;}
+  .card-grid{grid-template-columns:repeat(3,1fr);}
+  .step-grid{grid-template-columns:repeat(3,1fr);}
+  .who-grid{grid-template-columns:repeat(5,1fr);}
+  .who-card{border-bottom:none;}
+  /* prevent last card double border */
+  .who-card:last-child{border-right:none;}
+}
+@media(min-width:660px) and (max-width:899px){
+  .step-grid{grid-template-columns:repeat(2,1fr);}
+  .who-grid{grid-template-columns:repeat(3,1fr);}
+  .who-card:nth-child(3){border-right:none;}
+}
+
+/* ─────────────────────────────────────
+   MOBILE (<600px)
+───────────────────────────────────── */
+@media(max-width:599px){
+  .nav-links{display:none;}
+  .hbg{display:flex;}
+  nav{padding:.75rem 1.2rem;}
+  .sec{padding:4.5rem 1.2rem;}
+  .hero{padding:7rem 1.2rem 4rem;}
+  .hero-cta{flex-direction:column;}
+  .hero-cta .btn{width:100%;text-align:center;}
+  .step-grid{grid-template-columns:1fr;}
+  .who-grid{grid-template-columns:repeat(2,1fr);}
+  .who-card{border-right:1.5px solid var(--red);border-bottom:1.5px solid var(--red);}
+  .who-card:nth-child(2n){border-right:none;}
+  .who-card:nth-last-child(-n+1){border-bottom:none;}
+  .card-grid{grid-template-columns:1fr;}
+  .foot-row{flex-direction:column;align-items:flex-start;}
+  .sh-wrap{padding-left:1.2rem;}
+  .sh-wrap::before{width:4px;}
+}
+</style>
 </head>
 <body>
-  <!-- Netlify CMS loads here -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-globe">🌐</div>
+    <div class="nav-name">
+      I.S.A
+      <small>Intuitive Security Applications</small>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#why">Why ISA</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#who">Who It's For</a></li>
+    <li><a href="#what">Services</a></li>
+    <li><a href="#blog">Security Brief</a></li>
+    <li><a href="#toolkit">Toolkit</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+  <button class="hbg" onclick="toggleMob()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mob" id="mob">
+  <a href="#why"     onclick="closeMob()">Why ISA</a>
+  <a href="#how"     onclick="closeMob()">How It Works</a>
+  <a href="#who"     onclick="closeMob()">Who It's For</a>
+  <a href="#founder" onclick="closeMob()">About</a>
+  <a href="#blog"     onclick="closeMob()">Security Brief</a>
+  <a href="#toolkit" onclick="closeMob()">Security Toolkit</a>
+  <a href="#what"    onclick="closeMob()">Services</a>
+  <a href="#connect" onclick="closeMob()">Connect</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-brand ha d1">
+      <div class="hero-globe">🌐</div>
+      <div class="hero-brand-text">INTUITIVE SECURITY<br>APPLICATIONS</div>
+    </div>
+    <h1 class="hero-title ha d2">
+      INDEPENDENT<br>
+      <span class="red">SECURITY</span><br>
+      ADVISORY<br>
+      FOR BAY AREA<br>
+      BUSINESSES
+    </h1>
+    <div class="hero-rule ha d3"></div>
+    <p class="hero-sub ha d4">
+      15+ years navigating Bay Area security contractors, equipment sourcing, and operational protection.
+    </p>
+    <div class="hero-cta ha d5">
+      <a href="#connect" class="btn btn-wol">Book a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY ISA EXISTS ═══ -->
+<section class="sec why-bg" id="why">
+  <div class="inner">
+    <div class="sec-head rv">
+      <div class="sh-wrap">
+        <div class="sh-title">WHY<br><span class="hl">I.S.A</span> EXISTS</div>
+      </div>
+    </div>
+    <div class="why-leads rv d1">
+      <p>Most firms sell contracts.</p>
+      <p>We help you…</p>
+    </div>
+    <div class="card-grid">
+      <div class="scard rv d1">
+        <div class="scard-icon">💰</div>
+        <div class="scard-title">Avoid Overpriced<br>Contracts</div>
+      </div>
+      <div class="scard rv d2">
+        <div class="scard-icon">👆</div>
+        <div class="scard-title">Choose the Right<br>Contractors</div>
+      </div>
+      <div class="scard rv d3">
+        <div class="scard-icon">📋</div>
+        <div class="scard-title">Design Real<br>Protection Plans</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <p class="before-late rv d4">Before it's too late!</p>
+      <div class="rv d5">
+        <a href="#connect" class="btn btn-nol">Book a Free Consultation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW ISA WORKS ═══ -->
+<section class="sec how-bg" id="how">
+  <div class="inner">
+    <div class="sec-head rv">
+      <div class="sh-wrap">
+        <div class="sh-title">HOW<br><span class="hl">I.S.A</span> WORKS</div>
+      </div>
+    </div>
+    <div class="step-grid">
+
+      <!-- Card 1 -->
+      <div class="step-card rv d1">
+        <img class="step-img"
+          src="https://images.unsplash.com/photo-1573497491765-dccce02b29df?w=700&h=500&fit=crop&auto=format&q=75"
+          alt="Consultation meeting">
+        <div class="step-overlay"></div>
+        <div class="step-badge">
+          <div class="step-num">1</div>
+          <div class="step-tag">Consultation</div>
+        </div>
+        <div class="step-foot">
+          <p class="step-desc">Understanding your risk</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="step-card rv d2">
+        <img class="step-img"
+          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&h=500&fit=crop&auto=format&q=75"
+          alt="Security plan">
+        <div class="step-overlay"></div>
+        <div class="step-badge">
+          <div class="step-num">2</div>
+          <div class="step-tag">Security Plan</div>
+        </div>
+        <div class="step-foot">
+          <p class="step-desc">Custom SOPs &amp; contractor strategy</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="step-card rv d3">
+        <img class="step-img"
+          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&h=500&fit=crop&auto=format&q=75"
+          alt="Implementation">
+        <div class="step-overlay"></div>
+        <div class="step-badge">
+          <div class="step-num">3</div>
+          <div class="step-tag">Implementation</div>
+        </div>
+        <div class="step-foot">
+          <p class="step-desc">Vendor negotiation &amp; deployment</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="cta-row rv d4">
+      <a href="#connect" class="btn btn-rol">Book a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHO IS ISA FOR ═══ -->
+<section class="sec who-bg" id="who">
+  <div class="inner">
+    <div class="sec-head rv">
+      <div class="sh-wrap">
+        <div class="sh-title sh-dark" style="color:var(--white);">WHO IS<br><span class="hl">I.S.A</span> FOR?</div>
+      </div>
+    </div>
+    <div class="who-grid">
+      <div class="who-card rv d1">
+        <div class="who-icon">💰</div>
+        <div class="who-label">High-Value<br>Assets</div>
+      </div>
+      <div class="who-card rv d2">
+        <div class="who-icon">🏠</div>
+        <div class="who-label">Property<br>Owners</div>
+      </div>
+      <div class="who-card rv d3">
+        <div class="who-icon">🏪</div>
+        <div class="who-label">Retail<br>Operators</div>
+      </div>
+      <div class="who-card rv d4">
+        <div class="who-icon">👥</div>
+        <div class="who-label">Executives</div>
+      </div>
+      <div class="who-card rv d5">
+        <div class="who-icon">🏢</div>
+        <div class="who-label">Business<br>Owners</div>
+      </div>
+    </div>
+    <div class="cta-row rv d6">
+      <a href="#connect" class="btn btn-wol">Book a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOUNDER / 15+ YEARS ═══ -->
+<section class="sec founder-bg" id="founder">
+  <div class="inner" style="max-width:780px;">
+    <div class="rv">
+      <p class="founder-big">
+        After <span class="red">15+</span><br>Years in the<br>industry
+      </p>
+    </div>
+    <div class="inline-sh rv d1">
+      <div class="inline-sh-text">
+        <span class="hl">We know</span> how<br>contractors…
+      </div>
+    </div>
+    <ul class="bullet-list">
+      <li class="rv d2"><div class="bdot"></div>price their services</li>
+      <li class="rv d3"><div class="bdot bdot-red"></div><span class="red-text">mislead clients</span></li>
+      <li class="rv d4"><div class="bdot"></div>structure their contracts</li>
+    </ul>
+    <p class="insight-quote rv d5">
+      Clients use our insight to build<br>stronger protection strategies.
+    </p>
+    <div class="cta-row rv d6">
+      <a href="#connect" class="btn btn-nol">Book a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TOOLKIT ═══ -->
+<section class="sec toolkit-wrap" id="toolkit">
+  <div class="toolkit-photo"></div>
+  <div class="toolkit-inner inner" style="max-width:780px;">
+    <h2 class="toolkit-h rv">
+      <span class="red">COMING SOON</span> —<br>
+      THE I.S.A.<br>SECURITY<br>TOOLKIT
+    </h2>
+    <p class="toolkit-sub rv d1">Build Your Own Security Strategy</p>
+    <ul class="check-list">
+      <li class="rv d1"><div class="cdot">✓</div>Security planning templates</li>
+      <li class="rv d2"><div class="cdot">✓</div>Equipment frameworks</li>
+      <li class="rv d3"><div class="cdot">✓</div>Contractor negotiation guides</li>
+      <li class="rv d4"><div class="cdot">✓</div>SOP structures</li>
+    </ul>
+    <div class="rv d5">
+      <a href="#brief" class="btn btn-rol">Join Waitlist</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT ISA DOES ═══ -->
+<section class="sec what-bg" id="what">
+  <div class="inner">
+    <div class="sec-head rv">
+      <div class="sh-wrap">
+        <div class="sh-title">WHAT <span class="hl">I.S.A</span><br>DOES</div>
+      </div>
+    </div>
+    <p class="what-italic rv d1">Guides and Tips on Security Best Practices</p>
+    <div class="card-grid">
+      <div class="scard rv d1">
+        <div class="scard-icon" style="color:var(--red);">📋</div>
+        <div class="scard-title">Building a<br>Protection Plan</div>
+      </div>
+      <div class="scard rv d2">
+        <div class="scard-icon" style="color:var(--red);">🛡️</div>
+        <div class="scard-title">How to Vet<br>Security Contractors</div>
+      </div>
+      <div class="scard rv d3">
+        <div class="scard-icon" style="color:var(--red);">⚙️</div>
+        <div class="scard-title">Common Security<br>Mistakes</div>
+      </div>
+    </div>
+    <div class="cta-row rv d4">
+      <a href="#connect" class="btn btn-nfill">Book Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BLOG / SECURITY BRIEF ═══ -->
+<section class="sec blog-bg" id="blog">
+  <div class="inner">
+    <div class="sec-head rv">
+      <div class="sh-wrap">
+        <div class="sh-title">THE <span class="hl">I.S.A</span><br>SECURITY BRIEF</div>
+      </div>
+    </div>
+    <p class="what-italic rv d1">Practical insights from inside the security industry</p>
+
+    <!-- Blog Posts Grid — posts injected here by CMS -->
+    <div class="blog-grid" id="blog-posts">
+
+      <!-- Sample Post 1 -->
+      <article class="blog-card rv d1">
+        <div class="blog-card-top">
+          <span class="blog-tag">Contractor Tips</span>
+          <span class="blog-date">May 1, 2026</span>
+        </div>
+        <h3 class="blog-title">5 Things Security Companies Don't Want You to Know</h3>
+        <p class="blog-excerpt">Most security contracts are written to protect the vendor, not the client. Here's what to look for before you sign anything...</p>
+        <a href="#" class="blog-read-more">Read More →</a>
+      </article>
+
+      <!-- Sample Post 2 -->
+      <article class="blog-card rv d2">
+        <div class="blog-card-top">
+          <span class="blog-tag">Risk Assessment</span>
+          <span class="blog-date">Apr 18, 2026</span>
+        </div>
+        <h3 class="blog-title">Are You Overpaying for Security That Doesn't Work?</h3>
+        <p class="blog-excerpt">A uniformed guard at the door isn't always the answer. We break down when guards actually deter crime — and when they don't...</p>
+        <a href="#" class="blog-read-more">Read More →</a>
+      </article>
+
+      <!-- Sample Post 3 -->
+      <article class="blog-card rv d3">
+        <div class="blog-card-top">
+          <span class="blog-tag">DIY Security</span>
+          <span class="blog-date">Apr 5, 2026</span>
+        </div>
+        <h3 class="blog-title">Building a Home Security Setup That Actually Works</h3>
+        <p class="blog-excerpt">You don't need a $500/month monitoring contract. Here's how to build a practical, effective home security setup on your own...</p>
+        <a href="#" class="blog-read-more">Read More →</a>
+      </article>
+
+    </div>
+
+    <div class="cta-row rv d4">
+      <a href="#connect" class="btn btn-nfill">Book a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ JOIN OUR BRIEF ═══ -->
+<section class="sec brief-wrap" id="brief">
+  <div class="brief-noise"></div>
+  <div class="brief-inner">
+    <div class="brief-brand rv">
+      <div class="brief-globe">🌐</div>
+      <div class="brief-brand-text">
+        Join the ISA Security Brief<br>
+        Monthly insights on security strategy.
+      </div>
+    </div>
+    <div class="sec-head rv d1" style="padding-left:1.5rem;">
+      <div class="sh-wrap">
+        <div class="sh-title" style="color:var(--white);">JOIN OUR<br><span class="hl">BRIEF</span></div>
+      </div>
+    </div>
+    <p class="brief-body rv d2">
+      Get practical, no-nonsense insights on protecting your business, negotiating contracts, and avoiding the most common security mistakes — direct from someone who has seen it all from the inside.
+    </p>
+    <div class="rv d3">
+      <a href="#blog" class="btn btn-wol">Join Brief</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LET'S CONNECT ═══ -->
+<section class="connect-wrap" id="connect">
+  <div class="connect-photo"></div>
+  <div class="connect-overlay"></div>
+  <div class="connect-inner">
+    <div class="sec-head rv" style="padding-left:1.5rem;">
+      <div class="sh-wrap">
+        <div class="sh-title" style="color:var(--white);">LET'S<br>CONNECT</div>
+      </div>
+    </div>
+    <div class="connect-contact rv d1">
+      <div>Tel. <span>(123) 456-7890</span></div>
+      <div>Email: <span>hello@intuitiveapplications.com</span></div>
+      <div>Social: <span>TikTok: @intuitiveapplications</span></div>
+    </div>
+    <div class="rv d2">
+      <a href="mailto:hello@intuitiveapplications.com" class="btn btn-wol">Book Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-row">
+    <div class="foot-brand">I.S.A <span>•</span> Intuitive Security Applications</div>
+    <div class="foot-links">
+      <a href="#why">Why ISA</a>
+      <a href="#how">How It Works</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#what">Services</a>
+      <a href="#connect">Contact</a>
+    </div>
+    <div class="foot-copy">Terms of Service &nbsp;|&nbsp; Privacy Policy</div>
+  </div>
+</footer>
+
+<script>
+function toggleMob(){ document.getElementById('mob').classList.toggle('open'); }
+function closeMob()  { document.getElementById('mob').classList.remove('open');  }
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (!user) {
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
+    }
+  });
+}
+</script>
 </body>
 </html>
