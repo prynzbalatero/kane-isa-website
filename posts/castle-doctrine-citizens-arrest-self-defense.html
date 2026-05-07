@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizens Arrest, Castle Doctrine & Self Defense — I.S.A</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#fe0909;--navy:#273863;--navy-deep:#0f1d3a;--white:#ffffff;--light:#edeef0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Open Sans',sans-serif;background:var(--white);color:var(--navy-deep);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(8,15,30,.97);backdrop-filter:blur(14px);border-bottom:2.5px solid var(--red);display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;}
+.nav-globe{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.nav-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.82rem;letter-spacing:.1em;color:var(--white);line-height:1.3;}
+.nav-name small{display:block;font-weight:500;font-size:.52rem;letter-spacing:.18em;opacity:.6;margin-top:1px;}
+.nav-back{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);text-decoration:none;transition:color .3s;}
+.nav-back:hover{color:var(--white);}
+
+/* HERO */
+.post-hero{background:linear-gradient(155deg,#090f1e 0%,#162248 55%,#09111f 100%);padding:9rem 2rem 5rem;position:relative;overflow:hidden;}
+.post-hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1400&q=60&auto=format&fit=crop') center/cover no-repeat;opacity:.18;mix-blend-mode:luminosity;}
+.post-hero-inner{position:relative;z-index:2;max-width:780px;margin:0 auto;}
+.post-tag{display:inline-block;background:var(--red);color:var(--white);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2px;margin-bottom:1.2rem;}
+.post-date{font-family:'Open Sans',sans-serif;font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:1rem;display:block;}
+.post-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(1.8rem,5vw,3rem);color:var(--white);line-height:1.1;margin-bottom:1.2rem;}
+.post-excerpt{font-family:'Open Sans',sans-serif;font-size:1.05rem;color:rgba(255,255,255,.65);line-height:1.75;max-width:640px;}
+.post-author{margin-top:1.5rem;display:flex;align-items:center;gap:.75rem;}
+.post-author-dot{width:36px;height:36px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:900;color:var(--white);font-family:'Montserrat',sans-serif;}
+.post-author-text{font-family:'Open Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.6);}
+.post-author-text strong{color:var(--white);font-weight:700;}
+
+/* CONTENT */
+.post-body{max-width:780px;margin:0 auto;padding:4rem 2rem 5rem;}
+.post-intro{font-family:'Open Sans',sans-serif;font-size:1.05rem;line-height:1.9;color:#555;margin-bottom:2.5rem;padding:1.5rem;border-left:4px solid var(--red);background:rgba(254,9,9,.03);}
+
+.post-body h2{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:1.4rem;color:var(--navy-deep);
+  margin:3rem 0 1.2rem;padding-left:1rem;
+  border-left:4px solid var(--red);line-height:1.2;
+}
+.post-body h3{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:1rem;color:var(--navy);
+  margin:2rem 0 .75rem;text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.post-body p{
+  font-family:'Open Sans',sans-serif;font-size:.98rem;
+  line-height:1.9;color:#444;margin-bottom:1.3rem;
+}
+.post-body strong{color:var(--navy-deep);font-weight:700;}
+.post-body a{color:var(--red);text-decoration:underline;}
+.post-body a:hover{opacity:.8;}
+
+/* Law box */
+.law-box{
+  background:var(--light);border:1px solid #d8dce3;
+  border-left:4px solid var(--navy);
+  padding:1.5rem 1.8rem;margin:2rem 0;
+  border-radius:0 4px 4px 0;
+}
+.law-box-label{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--navy);margin-bottom:.75rem;display:block;
+}
+.law-box p{font-size:.9rem;color:#555;margin-bottom:.75rem;}
+.law-box p:last-child{margin:0;}
+.law-box ul{list-style:none;margin:.5rem 0;}
+.law-box ul li{
+  font-family:'Open Sans',sans-serif;font-size:.9rem;
+  color:#555;padding:.4rem 0 .4rem 1.2rem;
+  border-bottom:1px solid rgba(39,56,99,.08);
+  position:relative;line-height:1.65;
+}
+.law-box ul li:last-child{border:none;}
+.law-box ul li::before{content:'—';position:absolute;left:0;color:var(--navy);font-weight:700;}
+.law-box-source{
+  font-family:'Montserrat',sans-serif;font-size:.65rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:#999;margin-top:.75rem;display:block;
+}
+
+/* Example box */
+.example-box{
+  background:#fff8f8;border:1px solid rgba(254,9,9,.15);
+  border-left:4px solid var(--red);
+  padding:1.2rem 1.5rem;margin:1.5rem 0;
+  border-radius:0 4px 4px 0;
+}
+.example-box-label{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);margin-bottom:.5rem;display:block;
+}
+.example-box p{font-size:.92rem;color:#555;margin:0;line-height:1.7;}
+
+/* Takeaway */
+.takeaway{
+  background:var(--navy-deep);color:var(--white);
+  padding:1.5rem 1.8rem;margin:2rem 0;
+}
+.takeaway-label{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);margin-bottom:.5rem;display:block;
+}
+.takeaway p{font-size:.95rem;color:rgba(255,255,255,.8);margin:0;line-height:1.7;}
+
+/* Divider */
+.post-divider{border:none;border-top:1px solid var(--light);margin:3rem 0;}
+
+/* Conclusion */
+.conclusion{
+  background:var(--light);padding:2rem;
+  border-top:3px solid var(--navy-deep);margin-top:3rem;
+}
+.conclusion-label{
+  font-family:'Montserrat',sans-serif;font-weight:900;
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--navy);margin-bottom:1rem;display:block;
+}
+.conclusion p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:.75rem;}
+.conclusion p:last-child{margin:0;}
+.conclusion .founder-sig{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:.85rem;color:var(--navy-deep);
+  margin-top:1.2rem;display:block;
+}
+
+/* CTA */
+.post-cta{background:var(--navy-deep);padding:4rem 2rem;text-align:center;}
+.post-cta h3{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.5rem;color:var(--white);margin-bottom:.75rem;}
+.post-cta p{font-family:'Open Sans',sans-serif;color:rgba(255,255,255,.6);margin-bottom:2rem;font-size:.95rem;}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:.74rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:50px;padding:.9rem 2.4rem;border:2.5px solid var(--white);color:var(--white);background:transparent;transition:transform .4s,box-shadow .4s,background .3s;}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3);background:rgba(255,255,255,.1);}
+
+/* More posts */
+.more-posts{padding:4rem 2rem;background:var(--light);}
+.more-posts-inner{max-width:780px;margin:0 auto;}
+.more-posts h3{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1rem;color:var(--navy-deep);margin-bottom:1.5rem;letter-spacing:.08em;text-transform:uppercase;}
+.more-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;}
+.more-card{background:var(--white);padding:1.5rem;text-decoration:none;border:1px solid #ddd;transition:transform .4s,box-shadow .4s,border-color .3s;}
+.more-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.1);border-color:var(--navy);}
+.more-card-tag{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem;display:block;}
+.more-card-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.88rem;color:var(--navy-deep);line-height:1.4;}
+
+/* Footer */
+footer{background:#070c18;border-top:2.5px solid var(--red);padding:1.5rem 2rem;}
+.foot-row{max-width:780px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;}
+.foot-brand{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;color:var(--white);}
+.foot-brand span{color:var(--red);}
+.foot-copy{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.08em;color:rgba(255,255,255,.22);}
+
+/* Modal */
+#consultModal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(8,15,30,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1.5rem;}
+
+@media(max-width:599px){
+  nav{padding:.75rem 1.2rem;}
+  .post-hero{padding:8rem 1.2rem 4rem;}
+  .post-body{padding:3rem 1.2rem 4rem;}
+  .more-posts{padding:3rem 1.2rem;}
+  .law-box{padding:1.2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="/">
+    <div class="nav-globe">🌐</div>
+    <div class="nav-name">I.S.A<small>Intuitive Security Applications</small></div>
+  </a>
+  <a href="/blog.html" class="nav-back">← Back to Blog</a>
+</nav>
+
+<!-- HERO -->
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-inner">
+    <span class="post-tag">Know Your Rights</span>
+    <span class="post-date">May 6, 2026</span>
+    <h1 class="post-title">Citizens Arrest, Castle Doctrine &amp; General Self Defense</h1>
+    <p class="post-excerpt">People have no clue what they're legally allowed to do when violence happens right in front of them. They freeze, guess, or trust bad information from social media and TV. This post breaks down California law in plain terms.</p>
+    <div class="post-author">
+      <div class="post-author-dot">F</div>
+      <div class="post-author-text"><strong>The Founder</strong> — Intuitive Security Applications</div>
+    </div>
+  </div>
+</section>
+
+<!-- BODY -->
+<div class="post-body">
+
+  <p class="post-intro">Know where your rights begin, where they end, and what "reasonable force" can actually mean when seconds matter. This isn't legal advice — it's the information you should already have.</p>
+
+  <!-- CITIZENS ARREST -->
+  <h2>Citizens Arrest</h2>
+
+  <div class="law-box">
+    <span class="law-box-label">California Penal Code § 837</span>
+    <p>A private person may arrest another:</p>
+    <ul>
+      <li>For a public offense committed or attempted in his presence.</li>
+      <li>When the person arrested has committed a felony, although not in his presence.</li>
+      <li>When a felony has been in fact committed, and he has reasonable cause for believing the person arrested to have committed it.</li>
+    </ul>
+    <span class="law-box-source">Part 2. Of Criminal Procedure — Chapter 5. Arrest, by Whom and How Made [833–851.93] — Enacted 1872</span>
+  </div>
+
+  <div class="example-box">
+    <span class="example-box-label">Real World Example</span>
+    <p>Someone is beating up your grandma. You can "arrest" that person using reasonable means of force.</p>
+  </div>
+
+  <div class="takeaway">
+    <span class="takeaway-label">Key Takeaway</span>
+    <p>Reasonable use of force is subjective to your county and state. What's considered "reasonable" will be evaluated after the fact — so understanding the standard before you act is critical.</p>
+  </div>
+
+  <hr class="post-divider">
+
+  <!-- CASTLE DOCTRINE -->
+  <h2>Castle Doctrine: Home Defense</h2>
+
+  <p>California's Castle Doctrine gives you legal standing to defend yourself and your household within your own home. This is one of the most misunderstood areas of self-defense law.</p>
+
+  <div class="takeaway">
+    <span class="takeaway-label">Key Takeaway</span>
+    <p>"Reasonable" use of force can be applied to defending yourself, your domicile, and your family from any unauthorized party accessing your property or threatening persons inside.</p>
+  </div>
+
+  <p>For a detailed breakdown of California's castle law, see: <a href="https://www.esilverlaw.com/faqs/castle-law-in-california/" target="_blank" rel="noopener">esilverlaw.com — Castle Law in California</a></p>
+
+  <hr class="post-divider">
+
+  <!-- GENERAL SELF DEFENSE -->
+  <h2>General Self Defense</h2>
+
+  <div class="law-box">
+    <span class="law-box-label">California Penal Code § 197 — Justifiable Homicide</span>
+    <p>Homicide is also justifiable when committed by any person in any of the following cases:</p>
+    <ul>
+      <li>When resisting any attempt to murder any person, or to commit a felony, or to do some great bodily injury upon any person.</li>
+      <li>When committed in defense of habitation, property, or person, against one who manifestly intends or endeavors, by violence or surprise, to commit a felony, or against one who manifestly intends and endeavors, in a violent, riotous, or tumultuous manner, to enter the habitation of another for the purpose of offering violence to any person therein.</li>
+      <li>When committed in the lawful defense of such person, or of a spouse, parent, child, master, mistress, or servant of such person, when there is reasonable ground to apprehend a design to commit a felony or to do some great bodily injury, and imminent danger of such design being accomplished.</li>
+      <li>When necessarily committed in attempting, by lawful ways and means, to apprehend any person for any felony committed, or in lawfully suppressing any riot, or in lawfully keeping and preserving the peace.</li>
+    </ul>
+    <span class="law-box-source">Amended by Stats. 2016, Ch. 50, Sec. 67 (SB 1005). Effective January 1, 2017. — Source: California Code, Penal Code - PEN § 197. Current as of January 01, 2025.</span>
+  </div>
+
+  <div class="example-box">
+    <span class="example-box-label">Example 1</span>
+    <p>If in fear for your life or the lives of others within your home, you may be able to detain or use lethal force against an intruder displaying severe intent to harm, maim, or kill any residents of the domicile.</p>
+  </div>
+
+  <div class="example-box">
+    <span class="example-box-label">Example 2</span>
+    <p>You are able to use force against someone who is currently committing a violent felony in your presence.</p>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="conclusion">
+    <span class="conclusion-label">Conclusion</span>
+    <p>The law gives people options to defend themselves, their family, and others in serious situations — but those options come with consequences if misused. Force is judged <strong>after the fact</strong>, not in the moment, so knowing the line matters.</p>
+    <p>Read the code, understand the risk, and don't confuse confidence with legality.</p>
+    <span class="founder-sig">— The Founder, I.S.A</span>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<section class="post-cta">
+  <h3>Questions about your security situation?</h3>
+  <p>Book a free consultation — honest advice, no sales pitch.</p>
+  <a href="#" onclick="openModal(event)" class="btn">Book Free Consultation</a>
+</section>
+
+<!-- MORE POSTS -->
+<section class="more-posts">
+  <div class="more-posts-inner">
+    <h3>More from the Blog</h3>
+    <div class="more-grid">
+      <a href="/posts/5-things-security-companies.html" class="more-card">
+        <span class="more-card-tag">Contractor Tips</span>
+        <div class="more-card-title">5 Things Security Companies Don't Want You to Know</div>
+      </a>
+      <a href="/posts/overpaying-for-security.html" class="more-card">
+        <span class="more-card-tag">Risk Assessment</span>
+        <div class="more-card-title">Are You Overpaying for Security That Doesn't Work?</div>
+      </a>
+      <a href="/posts/diy-home-security.html" class="more-card">
+        <span class="more-card-tag">DIY Security</span>
+        <div class="more-card-title">Building a Home Security Setup That Actually Works</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-row">
+    <div class="foot-brand">I.S.A <span>•</span> Intuitive Security Applications</div>
+    <div class="foot-copy">© 2026 I.S.A. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div id="consultModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(8,15,30,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1.5rem;">
+  <div style="background:var(--white);max-width:480px;width:100%;position:relative;">
+    <div style="height:5px;background:var(--red);"></div>
+    <div style="padding:2.5rem 2rem;">
+      <button onclick="closeModal()" style="position:absolute;top:1.2rem;right:1.2rem;background:none;border:none;cursor:pointer;font-size:1.4rem;color:#999;line-height:1;" onmouseover="this.style.color='#fe0909'" onmouseout="this.style.color='#999'">✕</button>
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
+        <div style="width:42px;height:42px;border-radius:50%;border:2px solid var(--navy);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">🌐</div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:.85rem;letter-spacing:.1em;color:var(--navy-deep);">I.S.A</div>
+          <div style="font-family:'Open Sans',sans-serif;font-size:.62rem;color:#888;letter-spacing:.12em;text-transform:uppercase;">Intuitive Security Applications</div>
+        </div>
+      </div>
+      <h2 style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.4rem;color:var(--navy-deep);line-height:1.15;margin-bottom:.75rem;">Book a Free<br>Consultation</h2>
+      <p style="font-family:'Open Sans',sans-serif;font-size:.9rem;color:#666;line-height:1.7;margin-bottom:2rem;">Reach out directly and we'll set up a time that works for you — no commitment, no sales pitch.</p>
+      <a href="mailto:intuitiveapplications@yahoo.com" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border:1.5px solid var(--light);text-decoration:none;transition:border-color .3s,background .3s;" onmouseover="this.style.borderColor='var(--red)';this.style.background='#fff5f5'" onmouseout="this.style.borderColor='var(--light)';this.style.background='transparent'">
+        <div style="width:40px;height:40px;border-radius:50%;background:rgba(254,9,9,.08);border:1.5px solid rgba(254,9,9,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">📧</div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.2rem;">Email Us</div>
+          <div style="font-family:'Open Sans',sans-serif;font-size:.88rem;color:var(--red);font-weight:600;">intuitiveapplications@yahoo.com</div>
+        </div>
+      </a>
+      <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--light);">
+        <p style="font-family:'Open Sans',sans-serif;font-size:.75rem;color:#aaa;text-align:center;line-height:1.6;">We typically respond within 1 business day.<br>First consultation is always free.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(e){
+  if(e) e.preventDefault();
+  const m = document.getElementById('consultModal');
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('consultModal').style.display='none';
+  document.body.style.overflow='';
+}
+document.getElementById('consultModal').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>
