@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 Things Security Companies Don't Want You to Know — I.S.A</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#fe0909;--navy:#273863;--navy-deep:#0f1d3a;--white:#ffffff;--light:#edeef0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Open Sans',sans-serif;background:var(--white);color:var(--navy-deep);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(8,15,30,.97);backdrop-filter:blur(14px);border-bottom:2.5px solid var(--red);display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;}
+.nav-globe{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.nav-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.82rem;letter-spacing:.1em;color:var(--white);line-height:1.3;}
+.nav-name small{display:block;font-weight:500;font-size:.52rem;letter-spacing:.18em;opacity:.6;margin-top:1px;}
+.nav-back{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .3s;}
+.nav-back:hover{color:var(--white);}
+
+/* POST */
+.post-hero{background:linear-gradient(155deg,#090f1e 0%,#162248 55%,#09111f 100%);padding:9rem 2rem 5rem;position:relative;overflow:hidden;}
+.post-hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=60&auto=format&fit=crop') center/cover no-repeat;opacity:.15;mix-blend-mode:luminosity;}
+.post-hero-inner{position:relative;z-index:2;max-width:780px;margin:0 auto;}
+.post-tag{display:inline-block;background:var(--red);color:var(--white);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2px;margin-bottom:1.2rem;}
+.post-date{font-family:'Open Sans',sans-serif;font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:1rem;display:block;}
+.post-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(1.8rem,5vw,3rem);color:var(--white);line-height:1.1;margin-bottom:1.2rem;}
+.post-excerpt{font-family:'Open Sans',sans-serif;font-size:1.05rem;color:rgba(255,255,255,.65);line-height:1.75;max-width:620px;}
+
+/* CONTENT */
+.post-body{max-width:780px;margin:0 auto;padding:4rem 2rem 6rem;}
+.post-body h2{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.3rem;color:var(--navy-deep);margin:2.5rem 0 1rem;padding-left:1rem;border-left:4px solid var(--red);}
+.post-body p{font-family:'Open Sans',sans-serif;font-size:1rem;line-height:1.85;color:#444;margin-bottom:1.2rem;}
+.post-body strong{color:var(--navy-deep);font-weight:700;}
+.post-body .tip{background:var(--light);border-left:4px solid var(--navy);padding:1rem 1.2rem;margin:1.5rem 0;border-radius:0 4px 4px 0;}
+.post-body .tip strong{color:var(--navy);display:block;margin-bottom:.3rem;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;}
+
+/* CTA */
+.post-cta{background:var(--navy-deep);padding:4rem 2rem;text-align:center;}
+.post-cta h3{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.5rem;color:var(--white);margin-bottom:.75rem;}
+.post-cta p{font-family:'Open Sans',sans-serif;color:rgba(255,255,255,.6);margin-bottom:2rem;font-size:.95rem;}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:.74rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:50px;padding:.9rem 2.4rem;border:2.5px solid var(--white);color:var(--white);background:transparent;transition:transform .4s,box-shadow .4s,background .3s;}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3);background:rgba(255,255,255,.1);}
+
+/* MORE POSTS */
+.more-posts{padding:4rem 2rem;background:var(--light);}
+.more-posts-inner{max-width:780px;margin:0 auto;}
+.more-posts h3{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.1rem;color:var(--navy-deep);margin-bottom:1.5rem;letter-spacing:.05em;text-transform:uppercase;}
+.more-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;}
+.more-card{background:var(--white);padding:1.5rem;text-decoration:none;transition:transform .4s,box-shadow .4s;}
+.more-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.1);}
+.more-card-tag{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem;display:block;}
+.more-card-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.88rem;color:var(--navy-deep);line-height:1.4;}
+
+/* FOOTER */
+footer{background:#070c18;border-top:2.5px solid var(--red);padding:1.5rem 2rem;}
+.foot-row{max-width:780px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;}
+.foot-brand{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;color:var(--white);}
+.foot-brand span{color:var(--red);}
+.foot-copy{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.08em;color:rgba(255,255,255,.22);}
+
+@media(max-width:599px){
+  nav{padding:.75rem 1.2rem;}
+  .post-hero{padding:8rem 1.2rem 4rem;}
+  .post-body{padding:3rem 1.2rem 4rem;}
+  .more-posts{padding:3rem 1.2rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="/">
+    <div class="nav-globe">🌐</div>
+    <div class="nav-name">I.S.A<small>Intuitive Security Applications</small></div>
+  </a>
+  <a href="/#blog" class="nav-back">← Back to Security Brief</a>
+</nav>
+
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-inner">
+    <span class="post-tag">Contractor Tips</span>
+    <span class="post-date">May 1, 2026</span>
+    <h1 class="post-title">5 Things Security Companies Don't Want You to Know</h1>
+    <p class="post-excerpt">Most security contracts are written to protect the vendor, not the client. Here's what to look for before you sign anything.</p>
+  </div>
+</section>
+
+<div class="post-body">
+  <p>After 15+ years working inside Bay Area security contracting firms, there are patterns that repeat themselves constantly. Clients overpay. Contracts underdeliver. And the system is designed to keep it that way.</p>
+  <p>Here are five things the industry hopes you never figure out.</p>
+
+  <h2>1. The Contract Is Written Against You</h2>
+  <p>Security service agreements are drafted by lawyers whose job is to limit company liability. Clauses like <strong>"services rendered as described"</strong> are intentionally vague — giving the company flexibility to underdeliver without breach.</p>
+  <div class="tip"><strong>What to do</strong> Always ask for a plain-language summary of what's included. If they can't provide one, that's a red flag.</div>
+
+  <h2>2. Guard Rates Don't Reflect Guard Quality</h2>
+  <p>A $25/hr guard and a $45/hr guard often have the same training. The difference in cost typically reflects the company's overhead and margin — not the quality of protection you receive.</p>
+  <div class="tip"><strong>What to do</strong> Ask specifically about training hours, background check procedures, and turnover rates before signing.</div>
+
+  <h2>3. Post Orders Are Usually Ignored</h2>
+  <p>"Post orders" are the written instructions guards are supposed to follow at your location. In most cases, guards never read them after day one — and supervisors rarely check.</p>
+  <div class="tip"><strong>What to do</strong> Request monthly compliance reports. If the company doesn't offer them, build them into the contract.</div>
+
+  <h2>4. You're Paying for Liability Coverage, Not Protection</h2>
+  <p>A lot of commercial security is purchased to satisfy insurance requirements or reduce liability — not to actually deter crime. The vendor knows this. You should too.</p>
+  <div class="tip"><strong>What to do</strong> Ask your provider directly: "What specific threat does this service protect against?" Vague answers tell you everything.</div>
+
+  <h2>5. Switching Vendors Is Harder Than It Looks</h2>
+  <p>Most contracts have 30–90 day termination clauses, automatic renewal provisions, and penalties for early exit. Companies bank on inertia keeping you locked in year after year.</p>
+  <div class="tip"><strong>What to do</strong> Before signing, negotiate the termination clause down to 30 days with no penalty after the first year.</div>
+
+  <p>The good news? Once you understand how the system works, you can negotiate from a position of knowledge — and stop paying for protection that doesn't protect.</p>
+</div>
+
+<section class="post-cta">
+  <h3>Ready to stop overpaying?</h3>
+  <p>Book a free consultation and we'll review your current security setup with you — no obligation.</p>
+  <a href="/#connect" class="btn">Book Free Consultation</a>
+</section>
+
+<section class="more-posts">
+  <div class="more-posts-inner">
+    <h3>More from the Security Brief</h3>
+    <div class="more-grid">
+      <a href="/posts/overpaying-for-security.html" class="more-card">
+        <span class="more-card-tag">Risk Assessment</span>
+        <div class="more-card-title">Are You Overpaying for Security That Doesn't Work?</div>
+      </a>
+      <a href="/posts/diy-home-security.html" class="more-card">
+        <span class="more-card-tag">DIY Security</span>
+        <div class="more-card-title">Building a Home Security Setup That Actually Works</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-row">
+    <div class="foot-brand">I.S.A <span>•</span> Intuitive Security Applications</div>
+    <div class="foot-copy">© 2026 I.S.A. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
