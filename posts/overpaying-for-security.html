@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Are You Overpaying for Security That Doesn't Work? — I.S.A</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#fe0909;--navy:#273863;--navy-deep:#0f1d3a;--white:#ffffff;--light:#edeef0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Open Sans',sans-serif;background:var(--white);color:var(--navy-deep);overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(8,15,30,.97);backdrop-filter:blur(14px);border-bottom:2.5px solid var(--red);display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;}
+.nav-globe{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.nav-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.82rem;letter-spacing:.1em;color:var(--white);line-height:1.3;}
+.nav-name small{display:block;font-weight:500;font-size:.52rem;letter-spacing:.18em;opacity:.6;margin-top:1px;}
+.nav-back{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .3s;}
+.nav-back:hover{color:var(--white);}
+.post-hero{background:linear-gradient(155deg,#090f1e 0%,#162248 55%,#09111f 100%);padding:9rem 2rem 5rem;position:relative;overflow:hidden;}
+.post-hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=60&auto=format&fit=crop') center/cover no-repeat;opacity:.15;mix-blend-mode:luminosity;}
+.post-hero-inner{position:relative;z-index:2;max-width:780px;margin:0 auto;}
+.post-tag{display:inline-block;background:var(--red);color:var(--white);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2px;margin-bottom:1.2rem;}
+.post-date{font-family:'Open Sans',sans-serif;font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:1rem;display:block;}
+.post-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(1.8rem,5vw,3rem);color:var(--white);line-height:1.1;margin-bottom:1.2rem;}
+.post-excerpt{font-family:'Open Sans',sans-serif;font-size:1.05rem;color:rgba(255,255,255,.65);line-height:1.75;max-width:620px;}
+.post-body{max-width:780px;margin:0 auto;padding:4rem 2rem 6rem;}
+.post-body h2{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.3rem;color:var(--navy-deep);margin:2.5rem 0 1rem;padding-left:1rem;border-left:4px solid var(--red);}
+.post-body p{font-family:'Open Sans',sans-serif;font-size:1rem;line-height:1.85;color:#444;margin-bottom:1.2rem;}
+.post-body strong{color:var(--navy-deep);font-weight:700;}
+.post-body .tip{background:var(--light);border-left:4px solid var(--navy);padding:1rem 1.2rem;margin:1.5rem 0;border-radius:0 4px 4px 0;}
+.post-body .tip strong{color:var(--navy);display:block;margin-bottom:.3rem;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;}
+.post-cta{background:var(--navy-deep);padding:4rem 2rem;text-align:center;}
+.post-cta h3{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.5rem;color:var(--white);margin-bottom:.75rem;}
+.post-cta p{font-family:'Open Sans',sans-serif;color:rgba(255,255,255,.6);margin-bottom:2rem;font-size:.95rem;}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:.74rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:50px;padding:.9rem 2.4rem;border:2.5px solid var(--white);color:var(--white);background:transparent;transition:transform .4s,box-shadow .4s,background .3s;}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3);background:rgba(255,255,255,.1);}
+.more-posts{padding:4rem 2rem;background:var(--light);}
+.more-posts-inner{max-width:780px;margin:0 auto;}
+.more-posts h3{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.1rem;color:var(--navy-deep);margin-bottom:1.5rem;letter-spacing:.05em;text-transform:uppercase;}
+.more-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;}
+.more-card{background:var(--white);padding:1.5rem;text-decoration:none;transition:transform .4s,box-shadow .4s;}
+.more-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.1);}
+.more-card-tag{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem;display:block;}
+.more-card-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.88rem;color:var(--navy-deep);line-height:1.4;}
+footer{background:#070c18;border-top:2.5px solid var(--red);padding:1.5rem 2rem;}
+.foot-row{max-width:780px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;}
+.foot-brand{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;color:var(--white);}
+.foot-brand span{color:var(--red);}
+.foot-copy{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.08em;color:rgba(255,255,255,.22);}
+@media(max-width:599px){nav{padding:.75rem 1.2rem;}.post-hero{padding:8rem 1.2rem 4rem;}.post-body{padding:3rem 1.2rem 4rem;}.more-posts{padding:3rem 1.2rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="/">
+    <div class="nav-globe">🌐</div>
+    <div class="nav-name">I.S.A<small>Intuitive Security Applications</small></div>
+  </a>
+  <a href="/#blog" class="nav-back">← Back to Security Brief</a>
+</nav>
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-inner">
+    <span class="post-tag">Risk Assessment</span>
+    <span class="post-date">April 18, 2026</span>
+    <h1 class="post-title">Are You Overpaying for Security That Doesn't Work?</h1>
+    <p class="post-excerpt">A uniformed guard at the door isn't always the answer. We break down when guards actually deter crime — and when they don't.</p>
+  </div>
+</section>
+<div class="post-body">
+  <p>One of the most common misconceptions in the security industry is that visible security equals effective security. A guard at the front desk, a camera above the entrance — these feel reassuring. But feeling secure and being secure are two very different things.</p>
+
+  <h2>When Guards Actually Work</h2>
+  <p>Uniformed security is genuinely effective in specific contexts: high foot traffic retail environments, events with crowd management needs, and locations where the guard has clearly defined authority and protocols to follow.</p>
+  <div class="tip"><strong>The key factor</strong> Guards deter opportunistic crime. If your threat is opportunistic — someone who will move on if they see a barrier — a visible guard helps.</div>
+
+  <h2>When Guards Don't Work</h2>
+  <p>For <strong>targeted threats</strong> — someone who has specifically identified your business or property — a single uniformed guard provides almost no protection. The same applies to internal theft, which accounts for the majority of losses in retail environments.</p>
+  <p>In these cases, you're paying for the appearance of security, not the reality of it.</p>
+
+  <h2>The Real Cost Calculation</h2>
+  <p>A single guard at $35/hr, 8 hours a day, 5 days a week costs over $72,000 per year. Before committing to that expense, every business owner should ask: what specific risk does this guard reduce, and by how much?</p>
+  <div class="tip"><strong>Better question to ask</strong> "What is my actual threat profile, and what's the most cost-effective way to address it?" ISA can help you answer this in a free consultation.</div>
+
+  <h2>What Actually Reduces Risk</h2>
+  <p>In most commercial environments, a combination of well-placed cameras with monitored recording, access control systems, and clearly documented SOPs for staff outperforms a single guard at a fraction of the cost.</p>
+  <p>The security industry doesn't tell you this because guards are their product. We do tell you this because our only product is honest advice.</p>
+</div>
+<section class="post-cta">
+  <h3>Not sure if you're overpaying?</h3>
+  <p>Let's review your current security setup together — free, no commitment.</p>
+  <a href="/#connect" class="btn">Book Free Consultation</a>
+</section>
+<section class="more-posts">
+  <div class="more-posts-inner">
+    <h3>More from the Security Brief</h3>
+    <div class="more-grid">
+      <a href="/posts/5-things-security-companies.html" class="more-card">
+        <span class="more-card-tag">Contractor Tips</span>
+        <div class="more-card-title">5 Things Security Companies Don't Want You to Know</div>
+      </a>
+      <a href="/posts/diy-home-security.html" class="more-card">
+        <span class="more-card-tag">DIY Security</span>
+        <div class="more-card-title">Building a Home Security Setup That Actually Works</div>
+      </a>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="foot-row">
+    <div class="foot-brand">I.S.A <span>•</span> Intuitive Security Applications</div>
+    <div class="foot-copy">© 2026 I.S.A. All rights reserved.</div>
+  </div>
+</footer>
+</body>
+</html>
